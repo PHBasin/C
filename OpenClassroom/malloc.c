@@ -11,6 +11,10 @@ int main(int argc, char *argv[])
     exit(0);
   }
   
+  // utilisation de la mémoire
+
+  free(memoireAllouee);
+  
   return 0;
 }
 
