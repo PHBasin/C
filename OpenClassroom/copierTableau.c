@@ -34,3 +34,4 @@ void affiche(int tableau[], int tailleTableau)
     printf("%d\n", tableau[i]);
   }
 }
+
