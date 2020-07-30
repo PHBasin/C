@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-int main ( int argc, char** argv )
+int main ( int argc, char *argv[])
 {
     int nombreMystere = 0, nombreEntre = 0, coups = 0, rejouer = 0, difficulte = 2;
     int max = 100;
