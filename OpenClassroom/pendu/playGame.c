@@ -11,14 +11,14 @@ int rechercheLettre(char lettre, char motSecret[], int lettreTrouvee[]);
 
 int main(int argc, char* argv[])
 {
-  char lettre = 0
+  char lettre = 0;
   char motSecret[MAX_SIZE] = "MARRON";
   int *lettreTrouvee = NULL;
   int coupsRestants = 10;
   int i = 0;
   int tailleMot = 0;
   
-  printf("Bienvenue dans le Pendu !\n\n");
+  printf("Bienvenue dans le Pendu !\n");
   
   if(!pickWord(motSecret))
     exit(0);
@@ -33,12 +33,12 @@ int main(int argc, char* argv[])
   for (i = 0; i < tailleMot; i++)
     lettreTrouvee[i] = 0;
 
-  while (coupsRestants > 0 && !gagne(lettreTrouvee))
+  while (coupsRestants > 0 && !gagne(lettreTrouvee, tailleMot))
   {
-    printf("\n\nIl vous reste %d coups a jouer", coupsRestants);
+    printf("\nIl vous reste %d coups a jouer", coupsRestants);
     printf("\nQuel est le mot secret ? ");
 
-    for (i = 0 ; i < 6 ; i++)
+    for (i = 0 ; i < tailleMot ; i++)
     {
       if (lettreTrouvee[i])
         printf("%c", motSecret[i]);
@@ -55,10 +55,10 @@ int main(int argc, char* argv[])
     }
   }
 
-  if (gagne(lettreTrouvee))
-    printf("\n\nGagne ! Le mot secret etait bien : %s", motSecret);
+  if (gagne(lettreTrouvee, tailleMot))
+    printf("\nGagne ! Le mot secret etait bien : %s\n", motSecret);
   else
-    printf("\n\nPerdu ! Le mot secret etait : %s", motSecret);
+    printf("\nPerdu ! Le mot secret etait : %s\n", motSecret);
 
   return 0;
 }
@@ -75,12 +75,12 @@ char lireCaractere()
   return caractere;
 }
 
-int gagne(int lettreTrouvee[])
+int gagne(int lettreTrouvee[], long tailleMot)
 {
   int i = 0;
   int joueurGagne = 1;
 
-  for (i = 0 ; i < 6 ; i++)
+  for (i = 0 ; i < tailleMot ; i++)
   {
     if (lettreTrouvee[i] == 0)
       joueurGagne = 0;
