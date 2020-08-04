@@ -1,20 +1,37 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <string.h>
+
+#include "openFile.h"
 
 char lireCaractere();
-int gagne(int lettreTrouvee[]);
+int gagne(int lettreTrouvee[], long tailleMot);
 int rechercheLettre(char lettre, char motSecret[], int lettreTrouvee[]);
 
 int main(int argc, char* argv[])
 {
-  char lettre = 0; // Stocke la lettre proposée par l'utilisateur (retour du scanf)
-  char motSecret[] = "MARRON"; // C'est le mot à trouver
-  int lettreTrouvee[6] = {0}; // Tableau de booléens. Chaque case correspond à une lettre du mot secret. 0 = lettre non trouvée, 1 = lettre trouvée
-  int coupsRestants = 10; // Compteur de coups restants (0 = mort)
-  int i = 0; // Une petite variable pour parcourir les tableaux
-
+  char lettre = 0
+  char motSecret[MAX_SIZE] = "MARRON";
+  int *lettreTrouvee = NULL;
+  int coupsRestants = 10;
+  int i = 0;
+  int tailleMot = 0;
+  
   printf("Bienvenue dans le Pendu !\n\n");
+  
+  if(!pickWord(motSecret))
+    exit(0);
+
+  tailleMot = strlen(motSecret);
+
+  lettreTrouvee = malloc(tailleMot * sizeof(int));
+
+  if (lettreTrouvee == NULL)
+    exit(0);
+  
+  for (i = 0; i < tailleMot; i++)
+    lettreTrouvee[i] = 0;
 
   while (coupsRestants > 0 && !gagne(lettreTrouvee))
   {
@@ -23,10 +40,10 @@ int main(int argc, char* argv[])
 
     for (i = 0 ; i < 6 ; i++)
     {
-      if (lettreTrouvee[i]) // Si on a trouvé la lettre n° i
-        printf("%c", motSecret[i]); // On l'affiche
+      if (lettreTrouvee[i])
+        printf("%c", motSecret[i]);
       else
-        printf("*"); // Sinon, on affiche une étoile pour les lettres non trouvées
+        printf("*");
     }
 
     printf("\nProposez une lettre : ");
@@ -34,7 +51,7 @@ int main(int argc, char* argv[])
 
     if (!rechercheLettre(lettre, motSecret, lettreTrouvee))
     {
-      coupsRestants--; // On enlève un coup au joueur
+      coupsRestants--;
     }
   }
 
@@ -50,12 +67,12 @@ char lireCaractere()
 { 
   char caractere = 0;
 
-  caractere = getchar(); // On lit le premier caractère
-  caractere = toupper(caractere); // On met la lettre en majuscule si elle ne l'est pas déjà
+  caractere = getchar();
+  caractere = toupper(caractere);
 
   while (getchar() != '\n') ;
 
-  return caractere; // On retourne le premier caractère qu'on a lu 
+  return caractere;
 }
 
 int gagne(int lettreTrouvee[])
@@ -79,10 +96,10 @@ int rechercheLettre(char lettre, char motSecret[], int lettreTrouvee[])
 
   for (i = 0 ; motSecret[i] != '\0' ; i++)
   {
-    if (lettre == motSecret[i]) // Si la lettre y est
+    if (lettre == motSecret[i])
     {
-      bonneLettre = 1; // On mémorise que c'était une bonne lettre
-      lettreTrouvee[i] = 1; // On met à 1 la case du tableau de booléens correspondant à la lettre actuelle
+      bonneLettre = 1;
+      lettreTrouvee[i] = 1;
     }
   }
 

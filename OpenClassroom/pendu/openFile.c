@@ -1,37 +1,50 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <string.h>
 
-#define MAX_SIZE 45
+#include "openFile.h"
 
-int numberOfLine(char fichier);
-
-int main(int argc, char *argv[])
+int pickWord(char *wordPicked)
 {
-  char word[MAX_SIZE] = "";  
-  int number = 0;
+    FILE* dico = NULL;
+    int nbOfWords = 0, nbWordChosen = 0, i = 0;
+    int charReaded = 0;
+    dico = fopen("dico.txt", "r");
 
-  FILE* fichier = NULL;
-  
-  fichier = fopen("dico.txt", "r");
+    if (dico == NULL)
+    {
+        printf("\nImpossible de charger le dictionnaire de mots");
+        return 0;
+    }
 
-  if (fichier != NULL)
-  {
-    fgets(word, MAX_SIZE, fichier);
-    printf("%s", word);
-    number = numberOfLine(fichier)
-    fclose(fichier);
-  }
-  else
-  {
-    printf("impossible d'ouvrir le fichier dico.txt");
-  }
+    do
+    {
+        charReaded = fgetc(dico);
+        if (charReaded == '\n')
+            nbOfWords++;
+    } while(charReaded != EOF);
 
-  return 0;
+    nbWordChosen = randomNumber(nbOfWords);
+
+    rewind(dico);
+    while (nbWordChosen > 0)
+    {
+        charReaded = fgetc(dico);
+        if (charReaded == '\n')
+            nbWordChosen--;
+    }
+
+    fgets(wordPicked, 45, dico);
+
+    wordPicked[strlen(wordPicked) - 1] = '\0';
+    fclose(dico);
+
+    return 1;
 }
 
-int numberOfLine(fichier)
+int randomNumber(int maxNumber)
 {
-  int counter = 0;
-  
+    srand(time(NULL));
+    return (rand() % maxNumber);
 }
-
