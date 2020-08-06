@@ -1,31 +1,20 @@
-#include <stdio.h>
-#include <stdlib.h>
+# include <stdio.h>
 
-int enOrdreCroissant(int tableau[], int tailleTableau);
+void somme(int a, int b, int *c);
 
 int main(int argc, char *argv[])
 {
-  int tableau[4] = {15, 81, 22, 13};
-
-  enOrdreCroissant(tableau, 4);
-
+  int a, b, c;
+  a = 3;
+  b = 8;
+  c = 0;
+  somme(a, b, &c);
+  printf("Somme de a et b : %d\n", c);
   return 0;
 }
 
-int enOrdreCroissant(int tableau[], int tailleTableau)
+void somme(int a, int b, int *c)
 {
-  int i;
-
-  for (i = 1; i < tailleTableau; i++)
-  {
-    if (tableau[i - 1] > tableau[i])
-    {
-      printf("false");
-    }
-    else
-    {
-      printf("true");
-    }
-  }
+  *c = a + b;
+  return;
 }
-
