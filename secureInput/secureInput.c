@@ -2,7 +2,7 @@
 
 # File Name : secureInput.c
 # Creation Date : 05-08-2020
-# Last Modified : Wed 05 Aug 2020 10:17:37 PM CEST
+# Last Modified : Mon 10 Aug 2020 01:35:13 PM CEST
 # Created By : PHBasin
 
 **************************************************************************** */
@@ -12,21 +12,27 @@
 #include <string.h>
 
 void flushBuffer();
-long readNumber();
+long readInteger();
+double readRelative();
 int read(char *string, int lenth);
 
 int main(int argc, char *argv[])
 {
   char name[10];
   long age = 0;
+  double weight = 0;
 
   printf("Quel est votre nom ?\n");
   read(name, 10);
   printf("Ah ! Vous vous appelez donc %s !\n", name);  
   
   printf("Quel est votre age ?\n");
-  age = readNumber();
+  age = readInteger();
   printf("Ah vous avez donc %ld ans !\n", age);
+
+  printf("Combien pesez-vous ?\n");
+  weight = readRelative();
+  printf("Ah vous pesez donc %f kg !\n", weight);
 
   return 0;
 }
@@ -64,16 +70,36 @@ void flushBuffer()
   }
 }
 
-long readNumber()
+long readInteger()
 {
-  char textNumber[100] = {0};
+  char textInteger[100] = {0};
 
-  if (read(textNumber, 100))
+  if (read(textInteger, 100))
   {
-    return strtol(textNumber, NULL, 10);
+    return strtol(textInteger, NULL, 10);
   }
   else
   {
     return 0;
   }
+}
+
+double readRelative()
+{
+  char textRelative[100] = {0};
+  char *dotPosition = NULL;
+
+  if (read(textRelative, 100))
+    {
+      dotPosition = strchr(textRelative, ',');
+      if (dotPosition != NULL)
+      {
+        *dotPosition = '.';
+      }
+      return strtod(textRelative, NULL);
+    }
+  else
+    {
+      return 0;
+    }
 }
